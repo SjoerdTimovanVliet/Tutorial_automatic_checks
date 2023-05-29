@@ -1,0 +1,74 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-added-large-files
+  - id: check-merge-conflict
+  - id: check-case-conflict
+  - id: check-ast
+  - id: trailing-whitespace
+  - id: mixed-line-ending
+  - id: end-of-file-fixer
+  - id: requirements-txt-fixer
+  - id: check-docstring-first
+
+- repo: https://github.com/psf/black
+  rev: 23.3.0
+  hooks:
+  - id: black
+    args:
+      - --line-length=90
+    language_version: python3.9
+
+- repo: https://github.com/pre-commit/mirrors-prettier
+  rev: v3.0.0-alpha.6
+  hooks:
+    - id: prettier
+      files: frontend/
+      additional_dependencies:
+      -   prettier@2.8.0
+      -   'prettier-plugin-svelte@2.10.0'
+      -   '@trivago/prettier-plugin-sort-imports@4.1.1'
+
+# - repo: https://github.com/pre-commit/mirrors-eslint
+#   rev: 'v8.38.0'
+#   hooks:
+#   -   id: eslint
+#       files: \.(js|ts|svelte)$
+#       types: [file]
+#       args: [--fix]
+#       additional_dependencies:
+#           - eslint@8.38.0
+#           - svelte@3.54.0
+#           - typescript
+#           - eslint-plugin-svelte3@4.0.0
+#           - '@typescript-eslint/eslint-plugin@5.45.0'
+#           - '@typescript-eslint/parser'
+#           - eslint-config-prettier@8.5.0
+
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  # Ruff version.
+  rev: 'v0.0.262'
+  hooks:
+    - id: ruff
+      args:
+        - backend
+        - --fix
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.2.0
+  hooks:
+  - id: mypy
+    files: backend/servers/api-server/src
+    name: code
+    additional_dependencies:
+      - types-requests
+  - id: mypy
+    files: backend/servers/api-server/tests
+    name: tests
+    additional_dependencies:
+      - types-requests
+
